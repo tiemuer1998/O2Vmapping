@@ -213,39 +213,137 @@
 </section>
 <!-- End youtube video -->
 
+<!-- Static image display -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>O2V GIF Compare</title>
+  <style>
+    .compare-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+      margin: 2em auto;
+      overflow: hidden;
+      cursor: ew-resize;
+    }
 
-<!-- Video carousel -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">Another Carousel</h2>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-video1">
-          <video poster="" id="video1" autoplay controls muted loop height="100%">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel1.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video2">
-          <video poster="" id="video2" autoplay controls muted loop height="100%">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel2.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video3">
-          <video poster="" id="video3" autoplay controls muted loop height="100%">\
-            <!-- Your video file here -->
-            <source src="static/videos/carousel3.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-      </div>
+    .compare-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .compare-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      overflow: hidden;
+      width: 50%; /* default overlay width */
+    }
+
+    .compare-line {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background-color: red;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .compare-group {
+      margin-bottom: 3em;
+    }
+
+    h3 {
+      text-align: center;
+      margin-bottom: 0.5em;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Four Comparison Groups -->
+<div class="compare-group">
+  <h3>Comparison 1</h3>
+  <div class="compare-container" id="compare1">
+    <img src="static/vedios/left1.gif" alt="Left GIF 1">
+    <div class="compare-overlay" id="overlay1">
+      <img src="static/vedios/right1.gif" alt="Right GIF 1">
     </div>
+    <div class="compare-line" id="line1"></div>
   </div>
-</section>
-<!-- End video carousel -->
+</div>
+
+<div class="compare-group">
+  <h3>Comparison 2</h3>
+  <div class="compare-container" id="compare2">
+    <img src="static/vedios/left2.gif" alt="Left GIF 2">
+    <div class="compare-overlay" id="overlay2">
+      <img src="static/vedios/right2.gif" alt="Right GIF 2">
+    </div>
+    <div class="compare-line" id="line2"></div>
+  </div>
+</div>
+
+<div class="compare-group">
+  <h3>Comparison 3</h3>
+  <div class="compare-container" id="compare3">
+    <img src="static/vedios/left3.gif" alt="Left GIF 3">
+    <div class="compare-overlay" id="overlay3">
+      <img src="static/vedios/right3.gif" alt="Right GIF 3">
+    </div>
+    <div class="compare-line" id="line3"></div>
+  </div>
+</div>
+
+<div class="compare-group">
+  <h3>Comparison 4</h3>
+  <div class="compare-container" id="compare4">
+    <img src="static/vedios/left4.gif" alt="Left GIF 4">
+    <div class="compare-overlay" id="overlay4">
+      <img src="static/vedios/right4.gif" alt="Right GIF 4">
+    </div>
+    <div class="compare-line" id="line4"></div>
+  </div>
+</div>
+
+<script>
+  function setupCompare(containerId, overlayId, lineId) {
+    const container = document.getElementById(containerId);
+    const overlay = document.getElementById(overlayId);
+    const line = document.getElementById(lineId);
+
+    container.addEventListener('mousemove', function (e) {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const width = rect.width;
+      const percent = Math.max(0, Math.min(x / width, 1)) * 100;
+      overlay.style.width = percent + "%";
+      line.style.left = percent + "%";
+    });
+  }
+
+  // Initialize all four sliders
+  setupCompare("compare1", "overlay1", "line1");
+  setupCompare("compare2", "overlay2", "line2");
+  setupCompare("compare3", "overlay3", "line3");
+  setupCompare("compare4", "overlay4", "line4");
+</script>
+
+</body>
+</html>
+
+<!-- End static image display -->
 
 
 

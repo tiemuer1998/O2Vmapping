@@ -213,131 +213,130 @@
 </section>
 <!-- End youtube video -->
 
+
+
+
 <!-- Static image display -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>O2V GIF Compare</title>
+  <title>O2V Compare Slider x4</title>
   <style>
-    .compare-container {
-      position: relative;
-      width: 100%;
+    .compare-block {
       max-width: 800px;
+      margin: 40px auto;
+      position: relative;
       height: 400px;
-      margin: 2em auto;
       overflow: hidden;
       cursor: ew-resize;
     }
 
-    .compare-container img {
+    .compare-wrapper {
       position: absolute;
       top: 0;
       left: 0;
       height: 100%;
       width: 100%;
+    }
+
+    .compare-left, .compare-right {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .compare-left img,
+    .compare-right img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       pointer-events: none;
     }
 
-    .compare-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      overflow: hidden;
-      width: 50%; /* default overlay width */
+    .compare-left {
+      z-index: 1;
     }
 
-    .compare-line {
+    .compare-right {
+      z-index: 2;
+    }
+
+    .compare-divider {
       position: absolute;
       top: 0;
-      left: 50%;
       width: 2px;
       height: 100%;
       background-color: white;
-      z-index: 10;
-      pointer-events: none;
+      z-index: 3;
     }
 
-    .compare-group {
-      margin-bottom: 3em;
-    }
-
-    h3 {
+    .section-title {
       text-align: center;
-      margin-bottom: 0.5em;
+      margin-top: 20px;
+      font-size: 1.2em;
     }
   </style>
 </head>
 <body>
 
-<!-- Four Comparison Groups -->
-<div class="compare-group">
-  <h3>Comparison 1</h3>
-  <div class="compare-container" id="compare1">
-    <img src="static/videos/left1.gif" alt="Left GIF 1">
-    <div class="compare-overlay" id="overlay1">
-      <img src="static/videos/right1.gif" alt="Right GIF 1">
-    </div>
-    <div class="compare-line" id="line1"></div>
+<div class="section-title">Comparison 1</div>
+<div class="compare-block" id="compare1">
+  <div class="compare-wrapper">
+    <div class="compare-left"><img src="static/videos/left1.gif" alt="Left 1"></div>
+    <div class="compare-right" id="right1"><img src="static/videos/right1.gif" alt="Right 1"></div>
+    <div class="compare-divider" id="divider1"></div>
   </div>
 </div>
 
-<div class="compare-group">
-  <h3>Comparison 2</h3>
-  <div class="compare-container" id="compare2">
-    <img src="static/videos/left2.gif" alt="Left GIF 2">
-    <div class="compare-overlay" id="overlay2">
-      <img src="static/videos/right2.gif" alt="Right GIF 2">
-    </div>
-    <div class="compare-line" id="line2"></div>
+<div class="section-title">Comparison 2</div>
+<div class="compare-block" id="compare2">
+  <div class="compare-wrapper">
+    <div class="compare-left"><img src="static/videos/left2.gif" alt="Left 2"></div>
+    <div class="compare-right" id="right2"><img src="static/videos/right2.gif" alt="Right 2"></div>
+    <div class="compare-divider" id="divider2"></div>
   </div>
 </div>
 
-<div class="compare-group">
-  <h3>Comparison 3</h3>
-  <div class="compare-container" id="compare3">
-    <img src="static/videos/left3.gif" alt="Left GIF 3">
-    <div class="compare-overlay" id="overlay3">
-      <img src="static/videos/right3.gif" alt="Right GIF 3">
-    </div>
-    <div class="compare-line" id="line3"></div>
+<div class="section-title">Comparison 3</div>
+<div class="compare-block" id="compare3">
+  <div class="compare-wrapper">
+    <div class="compare-left"><img src="static/videos/left3.gif" alt="Left 3"></div>
+    <div class="compare-right" id="right3"><img src="static/videos/right3.gif" alt="Right 3"></div>
+    <div class="compare-divider" id="divider3"></div>
   </div>
 </div>
 
-<div class="compare-group">
-  <h3>Comparison 4</h3>
-  <div class="compare-container" id="compare4">
-    <img src="static/videos/left4.gif" alt="Left GIF 4">
-    <div class="compare-overlay" id="overlay4">
-      <img src="static/videos/right4.gif" alt="Right GIF 4">
-    </div>
-    <div class="compare-line" id="line4"></div>
+<div class="section-title">Comparison 4</div>
+<div class="compare-block" id="compare4">
+  <div class="compare-wrapper">
+    <div class="compare-left"><img src="static/videos/left4.gif" alt="Left 4"></div>
+    <div class="compare-right" id="right4"><img src="static/videos/right4.gif" alt="Right 4"></div>
+    <div class="compare-divider" id="divider4"></div>
   </div>
 </div>
 
 <script>
-  function setupCompare(containerId, overlayId, lineId) {
-    const container = document.getElementById(containerId);
-    const overlay = document.getElementById(overlayId);
-    const line = document.getElementById(lineId);
+  function setupCompare(id) {
+    const block = document.getElementById(id);
+    const right = document.getElementById("right" + id.slice(-1));
+    const divider = document.getElementById("divider" + id.slice(-1));
 
-    container.addEventListener('mousemove', function (e) {
-      const rect = container.getBoundingClientRect();
+    block.addEventListener("mousemove", function (e) {
+      const rect = block.getBoundingClientRect();
       const x = e.clientX - rect.left;
-      const width = rect.width;
-      const percent = Math.max(0, Math.min(x / width, 1)) * 100;
-      overlay.style.width = percent + "%";
-      line.style.left = percent + "%";
+      const percent = Math.max(0, Math.min(x / rect.width, 1));
+      right.style.clipPath = `inset(0 0 0 ${percent * 100}%)`;
+      divider.style.left = `${percent * 100}%`;
     });
   }
 
-  // Initialize all four sliders
-  setupCompare("compare1", "overlay1", "line1");
-  setupCompare("compare2", "overlay2", "line2");
-  setupCompare("compare3", "overlay3", "line3");
-  setupCompare("compare4", "overlay4", "line4");
+  setupCompare("compare1");
+  setupCompare("compare2");
+  setupCompare("compare3");
+  setupCompare("compare4");
 </script>
 
 </body>
@@ -354,7 +353,7 @@
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
       <pre><code>@inproceedings{tie20242,
-        title={O 2 V-Mapping: Online Open-Vocabulary Mapping with Neural Implicit Representation},
+        title={O2V-Mapping: Online Open-Vocabulary Mapping with Neural Implicit Representation},
         author={Tie, Muer and Wei, Julong and Wu, Ke and Wang, Zhengjun and Yuan, Shanshuai and Zhang, Kaizhao and Jia, Jie and Zhao, Jieru and Gan, Zhongxue and Ding, Wenchao},
         booktitle={European Conference on Computer Vision},
         pages={318--333},
